@@ -1,8 +1,8 @@
 spring:
   datasource:
-    username: postgres
-    password: 1453
-    url: jdbc:postgresql://localhost:5432/ms-product
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/ms-product}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:1453}
     driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: true
