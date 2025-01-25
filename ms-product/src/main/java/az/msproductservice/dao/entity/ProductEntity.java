@@ -16,8 +16,7 @@ import static jakarta.persistence.EnumType.STRING;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
-@Table(name = "products")
+@Entity(name = "products")
 public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,7 +1,6 @@
 package az.msproductservice.controller;
 
 import az.msproductservice.model.request.ProductRequest;
-import az.msproductservice.model.response.AmountResponse;
 import az.msproductservice.model.response.ProductResponse;
 import az.msproductservice.service.ProductService;
 import jakarta.validation.Valid;
@@ -21,12 +20,19 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(CREATED)
-    public void createProduct(@Valid @RequestBody ProductRequest productRequest) {
+//    @CheckPermission("ROLE_ADMIN")
+    public void createProduct(@Valid @RequestBody ProductRequest productRequest,
+                              @RequestHeader(name = "Role") String role) {
+        System.out.println(role);
         productService.createProduct(productRequest);
     }
 
     @GetMapping("{id}")
-    public ProductResponse getProductById(@PathVariable Long id) {
+    public ProductResponse getProductById(@PathVariable Long id,
+                                          @RequestHeader(name = "Role",required = false) String role,
+                                          @RequestHeader(name = "UserId",required = false) String userid) {
+        System.out.println(role);
+        System.out.println(userid);
         return productService.getProductById(id);
     }
 

@@ -28,6 +28,12 @@ public class ErrorHandler {
         return new ErrorResponse(exception.getMessage());
     }
 
+    @ExceptionHandler(UnauthorizedUserException.class)
+    @ResponseStatus(BAD_REQUEST)
+    public ResponseEntity<ErrorResponse> handle(UnauthorizedUserException exception) {
+        return new ResponseEntity<>(new ErrorResponse(exception.getMessage()), UNAUTHORIZED);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handle(MethodArgumentNotValidException exception) {
         Map<String, String> errors = new HashMap<>();
