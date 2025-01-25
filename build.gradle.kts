@@ -19,15 +19,12 @@ repositories {
 
 extra["springCloudVersion"] = "2024.0.0"
 
-dependencies {
-}
 
 dependencyManagement {
     imports {
         mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
     }
 }
-
 tasks.withType<Test> {
     useJUnitPlatform()
 }
