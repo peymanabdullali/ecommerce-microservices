@@ -1,88 +1,59 @@
-# Project Overview
+# E-Commerce Microservice Project
 
-This project is based on a microservices architecture and consists of the following microservices:
+## Overview
+This project is a microservices-based architecture designed for e-commerce operations. It consists of multiple microservices for handling different functionalities like authentication, product management, order processing, payment, and more. The system also includes centralized configuration, service discovery, API Gateway, and distributed tracing.
 
-- **Product Service**: Provides product management functionality.
-- **Order Service**: Manages order operations.
-- **Payment Service**: Handles payment processes.
-- **Eureka Server**: Used for service discovery and registration.
-- **Config Server**: Provides centralized configuration management.
+### Microservices and Components
+- **API Gateway**: Routes and secures requests to the microservices, with rate limiting and circuit breaker mechanisms.
+- **Authentication Service (ms-auth)**: Handles user authentication using JWT (JSON Web Tokens).
+- **Product Service (ms-product)**: Manages product-related operations.
+- **Order Service (ms-order)**: Handles order creation and management.
+- **Payment Service (ms-payment)**: Processes payments for orders.
+- **Eureka Server**: Provides service discovery for all microservices.
+- **Config Server**: Supplies centralized configuration for the services.
 
-## Technologies
+---
 
-The project uses the following technologies and tools:
+## Features
+1. **Authentication**:
+   - User login and registration with JWT-based authentication.
+   - Token-based security integrated with API Gateway.
+2. **API Gateway**:
+   - Handles all incoming requests.
+   - Integrated with Resilience4j for rate limiting and circuit breaker functionality.
+   - Swagger-enabled OpenAPI documentation for all microservices.
+3. **Distributed Tracing**:
+   - Zipkin is used for distributed tracing of requests across microservices.
+4. **Service Discovery and Configuration**:
+   - Eureka Server for service registration and discovery.
+   - Config Server for managing centralized configurations.
+5. **Resilience4j**:
+   - Rate limiter and circuit breaker mechanisms to ensure system stability.
+6. **Swagger Integration**:
+   - OpenAPI documentation for testing and exploring APIs via Swagger UI.
 
-1. **Spring Boot**: Core framework for microservice development.
-2. **Feign Client**: REST client for inter-service communication.
-3. **Spring AOP**: For managing cross-cutting concerns (e.g., logging, security).
-4. **Exception Handler**: Custom error handling.
-5. **Spring Cloud Eureka**: Service discovery and load balancing.
-6. **Spring Cloud Config**: Centralized configuration management.
+---
 
-## Services
+## Technologies and Tools
+- **Spring Boot**: Framework for building microservices.
+- **Spring Cloud**: For service discovery, configuration, and resilience.
+- **Feign Client**: For inter-service communication.
+- **Resilience4j**: Circuit breaker and rate limiter.
+- **JWT**: Secure user authentication.
+- **Zipkin**: Distributed tracing.
+- **Swagger/OpenAPI**: API documentation and testing.
 
-### Product Service
-- Communicates with other microservices using Feign Client.
-- Logging and transaction management with AOP.
-- Error management with a custom exception handler.
-
-
-### Order Service
-- Interacts with Product Service via Feign Client.
-- Logs operations using AOP.
-- Handles errors with a custom exception handler.
-
-
-### Payment Service
-- Processes payment operations.
-- Communicates with Order Service using Feign Client.
-- Logging with AOP and custom error handling.
-
-### Eureka Server
-- Registers all microservices.
-- Enables service discovery among microservices.
-
-
-### Config Server
-- Manages centralized configuration files.
-- Provides configuration to all microservices.
-
-## Project Setup
-
-- **Feign Client**: Enables communication between microservices. Each service defines interfaces to access other microservices.
-- **Spring AOP**: Used for centralized logging and cross-cutting concerns.
-- **Exception Handler**: Centralized error handling is implemented via custom exception handlers.
-- **Eureka and Config Server**: Eureka Server provides service discovery, while Config Server simplifies centralized configuration management.
-
-## How to Run
-
-1. **Start the Config Server**
-    - Run the Config Server to make the centralized configuration files accessible.
-
-2. **Start the Eureka Server**
-    - Start the Eureka Server to enable service registration and discovery.
-
-3. **Start the Microservices**
-    - Run Product, Order, and Payment services. These services will register with Eureka Server and fetch configuration from Config Server.
-
-4. **Test API Requests**
-    - Use Postman or similar tools to test the APIs provided by the microservices.
+---
 
 ## Project Structure
-
-```
-project-root
-|
-├── config-server
-├── eureka-server
-├── product-service
-├── order-service
-├── payment-service
-```
-
-## Notes
-
-- Each service can be run independently.
-- Config Server and Eureka Server must be started before other microservices.
-- Logging and error handling are centralized to avoid code duplication.
-
+```plaintext
+e-commerce-microservice-project/
+├── api-gateway          # API Gateway service
+├── config-server        # Centralized configuration
+├── eureka-server        # Service registry and discovery
+├── ms-auth              # Authentication service
+├── ms-order             # Order service
+├── ms-payment           # Payment service
+├── ms-product           # Product service
+├── README.md            # Project documentation
+└── build.gradle.kts     # Gradle configuration
