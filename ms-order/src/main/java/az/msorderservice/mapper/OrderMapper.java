@@ -16,7 +16,8 @@ import static az.msorderservice.enums.OrderStatus.PENDING;
 
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
-    OrderEntity mapToEntity(OrderRequest request);
+    @Mapping(source = "userId", target = "userId")
+    OrderEntity mapToEntity(OrderRequest request,Long userId);
 
     @AfterMapping
     default void setDefaultStatus(@MappingTarget OrderEntity order) {

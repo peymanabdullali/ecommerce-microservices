@@ -31,6 +31,7 @@ public class OrderEntity {
     @Enumerated(value = STRING)
     private OrderStatus orderStatus;
     private Double amount;
+    private Long userId;
     @UpdateTimestamp
     LocalDate createdAt;
     @CreationTimestamp

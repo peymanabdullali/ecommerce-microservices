@@ -36,8 +36,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     @Transactional
-    public void createOrder(OrderRequest orderRequest) {
-        OrderEntity orderEntity = orderMapper.mapToEntity(orderRequest);
+    public void createOrder(OrderRequest orderRequest, Long userId) {
+        OrderEntity orderEntity = orderMapper.mapToEntity(orderRequest,userId);
         orderRepository.save(orderEntity);
         List<ProductResponse> productList =
                 productClient.getProductsByIds(orderRequest.getProducts().keySet().
@@ -60,7 +60,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderResponse getOrderByUserId(Long userId) {
-        OrderEntity orderEntity = orderRepository.findById(userId).orElseThrow(() ->
+        OrderEntity orderEntity = orderRepository.findByUserId(userId).orElseThrow(() ->
                 new NotFoundException(format(ORDER_NOT_FOUND.getMessage(), userId)));
         List<ProductResponse> productList =
                 productClient.getProductsByIds(orderEntity.getProducts().keySet().
