@@ -1,2 +1,9 @@
 rootProject.name = "e-commerce-microservice-project"
-include("ms-order", "ms-payment", "ms-product","eureka-server","config-server")
+
+include("api-gateway")
+include("config-server")
+include("eureka-server")
+include("ms-order")
+include("ms-product")
+include("ms-payment")
+include("ms-auth")
