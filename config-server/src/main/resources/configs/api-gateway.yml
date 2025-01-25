@@ -1,0 +1,97 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: ms-product
+          uri: lb://ms-product-service
+          predicates:
+            - Path=/products/**
+          filters:
+
+            - RewritePath=/products/?(?<segment>.*), /${segment}
+            - name: JwtAuthFilter
+            - name: CircuitBreaker
+              args:
+                name: productServiceFallback
+                fallbackUri: forward:/fallback/productServiceFallback
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter:
+                  replenishRate: 1
+                  burstCapacity: 3
+
+
+
+
+
+        - id: ms-order
+          uri: lb://ms-order-service
+          predicates:
+            - Path=/orders/**
+          filters:
+
+            - RewritePath=/orders/?(?<segment>.*), /${segment}
+
+            - name: JwtAuthFilter
+            - name: CircuitBreaker
+              args:
+                name: orderServiceFallback
+                fallbackUri: forward:/fallback/orderServiceFallback
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter:
+                  replenishRate: 1
+                  burstCapacity: 3
+
+
+        - id: ms-auth
+          uri: lb://ms-auth-service
+          predicates:
+            - Path=/auth/**
+          filters:
+
+            - RewritePath=/auth/?(?<segment>.*), /${segment}
+
+            - name: CircuitBreaker
+              args:
+                name: authServiceFallback
+                fallbackUri: forward:/fallback/authServiceFallback
+
+            - name: RequestRateLimiter
+              args:
+                redis-rate-limiter:
+                  replenishRate: 1
+                  burstCapacity: 3
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  tracing:
+    sampling:
+      probability: 1.0
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+server:
+  port: 9000
+
+
+springdoc:
+  swagger-ui:
+    urls:
+      - url: http://localhost:8083/v3/api-docs
+        name: Payment Service
+      - url: http://localhost:8082/v3/api-docs
+        name: Order Service
+      - url: http://localhost:8081/v3/api-docs
+        name: Product Service
+      - url: http://localhost:8084/v3/api-docs
+        name: Auth Service

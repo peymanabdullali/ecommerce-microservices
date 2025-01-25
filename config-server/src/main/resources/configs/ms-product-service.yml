@@ -16,6 +16,11 @@ eureka:
   client:
     service-url:
       defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka}
+
+#management:
+#  tracing:
+#    sampling:
+#      probability: 0.8
 #spring:
 #  rabbitmq:
 #    host: localhost
